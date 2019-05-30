@@ -1,9 +1,10 @@
 import React from 'react';
+import './Header.css';
 
 function Header() {
     return (
-        <div>
-            <h2>Series searcher</h2>
+        <div className="Header">
+            <p>Series searcher</p>
         </div>
     );
 }
