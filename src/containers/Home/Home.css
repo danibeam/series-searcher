@@ -1,0 +1,16 @@
+.searcher {
+    width: 100%;
+}
+
+.card {
+    display: inline-block;
+    margin: 10px;
+}
+
+h1, h2 {
+    margin: 10px
+}
+
+p.result {
+    text-align: left;
+}
