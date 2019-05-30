@@ -4,7 +4,15 @@ import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
 
 // Components library
-import { FormInput, Fade } from "shards-react";
+import { 
+    FormInput, 
+    Fade,   
+    Form,
+    InputGroup,
+    InputGroupText,
+    InputGroupAddon, 
+    Button
+} from "shards-react";
 import Serie from '../Serie/Serie';
 
 // Styles
@@ -15,16 +23,27 @@ class Home extends Component {
         super(props);
         this.state = { 
             showSerie: false,
+            fetchedSerie: '',
+            message: '',
             popularSeries: [],
-            fetchedSerie: ''
+            showPopularSerie: false,
+            inputValue: ''
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (event) => {
 
         this.setState({
-            showSerie: true
+            inputValue: event.target.value
         })
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.fetchSerie(this.state.inputValue);
     }
 
     getPopularSeries = () => {
@@ -50,6 +69,7 @@ class Home extends Component {
                 console.log('Featured series: ', response)
                 this.setState({
                     ...this.state,
+                    showPopularSerie: true,
                     popularSeries: response
                 })
             }
@@ -61,8 +81,20 @@ class Home extends Component {
         try {
             axios.get('http://www.omdbapi.com/?apikey=5ccb1a9d&type=series&t=' + title).then(
                 response => {
-                    console.log(response)
-                    return response.data;
+                    console.log(title, response)
+                    if(response.data.Response !== "False") {
+                        this.setState({
+                            showSerie: true,
+                            serie: response.data,
+                            message: 'Fetched TV Show'
+                        })
+                    } else {
+                        this.setState({
+                            showSerie: false,
+                            message: 'Couldnt find ' + title
+                        })
+                    }
+
                 }
             );
         } catch(err) {
@@ -85,28 +117,30 @@ class Home extends Component {
             <React.Fragment>
                 <Header></Header>
 
-
                 <h1>All the series, one place</h1>
-                <FormInput className="searcher" type="text" size="lg" placeholder="Do not search for 'Game of Thrones' >:(" onChange={event => this.handleChange(event)} />
+                <Form>
+                    <FormInput className="searcher" type="text" size="lg" placeholder="Do not search for 'Game of Thrones' >:(" onChange={event => this.handleChange(event)} />
+                    <Button type="submit" size="lg" onClick={this.handleSubmit}>Filter</Button>
+                </Form>
                 <Fade in={this.state.showSerie}>
                     {
                         this.state.showSerie ?
                         (
                             <React.Fragment>
-                                <p className="result">Fetched TV show:</p>
-                                {/* <Serie serie={serie}></Serie> */}
+                                <p className="result">{this.state.message}</p>
+                                <Serie serie={this.state.serie}></Serie>
                             </React.Fragment>
                         )                             
-                        : null
+                        : <p className="result">{this.state.message}</p>
                     }
                 </Fade>                
-                <Fade in={this.state.showSerie}>
+                <Fade in={this.state.showPopularSerie}>
                     <h2>Popular series</h2>
                     {
                         this.state.popularSeries.map((serie,index) => (
                             <Serie 
-                            key={index}
-                            serie={serie}
+                                key={index}
+                                serie={serie}
                             ></Serie>
                         ))
                     }
