@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // CSS
-import 'shards-ui/dist/css/shards.min.css'
+import 'shards-ui/dist/css/shards.min.css';
 import './App.css';
 
 import Home from './containers/Home/Home';

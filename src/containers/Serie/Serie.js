@@ -27,16 +27,26 @@ class Serie extends Component {
                 <CardBody>
                     <CardTitle>{this.props.serie.Title}</CardTitle>
                     <p>{this.props.serie.Genre}</p>
-                    <p>{this.props.serie.Year}</p>
+                    <p>{this.props.serie.Country}, {this.props.serie.Year}</p>
                     <Button>Read more &rarr;</Button>
                 </CardBody>
-                <CardFooter>IMDb rating: 
-                    <StarRatingComponent 
-                        name="imdbrating" 
-                        starCount={10}
-                        value={parseInt(this.props.serie.imdbRating)}
-                        editing={false}
-                    />
+                <CardFooter>
+                    {
+                        this.props.serie.imdbRating === "N/A" ?
+                            "No IMDb rating available"
+                        :
+                        (
+                            "IMDb rating: ",
+                            <StarRatingComponent
+                                name="imdbrating" 
+                                starCount={10}
+                                value={parseInt(this.props.serie.imdbRating)}
+                                editing={false}
+                            />
+                        )
+                            
+                    }
+                    
                 </CardFooter>
             </Card>
         );

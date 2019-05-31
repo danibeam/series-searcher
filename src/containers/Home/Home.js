@@ -43,7 +43,9 @@ class Home extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.fetchSerie(this.state.inputValue);
+        if(this.state.inputValue) {
+            this.fetchSerie(this.state.inputValue)
+        }
     }
 
     getPopularSeries = () => {
@@ -127,11 +129,11 @@ class Home extends Component {
                         this.state.showSerie ?
                         (
                             <React.Fragment>
-                                <p className="result">{this.state.message}</p>
+                                <p className="result"><strong>{this.state.message}</strong></p>
                                 <Serie serie={this.state.serie}></Serie>
                             </React.Fragment>
                         )                             
-                        : <p className="result">{this.state.message}</p>
+                        : <p className="result"><strong>{this.state.message}</strong></p>
                     }
                 </Fade>                
                 <Fade in={this.state.showPopularSerie}>
