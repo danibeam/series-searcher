@@ -5,3 +5,15 @@
 .card {
     vertical-align: top;
 }
+
+.tooltip {
+    z-index: 999;
+    max-width: 200px;
+    padding: 7px 13px;
+    color: #5a6169;
+    background-color: #fff;
+    box-shadow: 0 3px 15px rgba(90,97,105,.1), 0 2px 3px rgba(90,97,105,.2);
+    border-radius: .375rem;
+    position: absolute;
+    will-change: transform;
+}
