@@ -136,7 +136,7 @@ class Home extends Component {
                     : <p className="result"><strong>{this.state.message}</strong></p>
                 }
                 <React.Fragment>
-                    <h2>Featured series</h2>
+                    <h2>Featured TV series</h2>
                     <Skeleton loading={this.state.loading} active>
                         {
                             this.state.popularSeries.map((serie,index) => (

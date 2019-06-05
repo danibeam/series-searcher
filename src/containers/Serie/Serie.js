@@ -8,8 +8,9 @@ import {
     CardBody,
     CardFooter,
     Button,
+    Skeleton,
     Tooltip
-} from 'shards-react';
+} from 'antd';
 
 import './Serie.css';
 
@@ -19,7 +20,8 @@ class Serie extends Component {
         this.starRatingRef = React.createRef(); 
         this.state = {
             showTooltip: false,
-            tooltip: ''
+            tooltip: '',
+            loading: false
         };
 
         this.hoverRate.bind(this);
@@ -48,13 +50,6 @@ class Serie extends Component {
                         <div className="tooltip">
                             <p>Rated with {this.props.serie.imdbRating} on IMDb</p>
                         </div>
-                        // <Tooltip
-                        // open={true}
-                        // target={this.props.serie.imdbID}
-                        // toggle={this.toggle}
-                        // >
-                        // Woo! I am a tooltip!
-                        // ></Tooltip>
                     )
                 :   "No IMDb rates available"
             );
@@ -64,49 +59,50 @@ class Serie extends Component {
 
     render() {
         return (
-            <Card style={{ maxWidth: "300px" }}>
-                {/* <CardHeader>Card header</CardHeader> */}
-                {/* <CardImg src="https://place-hold.it/300x200" /> */}
-                <CardBody>
-                    <CardTitle>{this.props.serie.Title}</CardTitle>
+            <Card title={this.props.serie.Title} extra={<a href="#">More</a>}>
+                <Skeleton loading={this.state.loading} active>
                     <p>{this.props.serie.Genre}</p>
                     <p>{this.props.serie.Country}, {this.props.serie.Year}</p>
-                    <Button>Read more &rarr;</Button>
-                </CardBody>
-                <CardFooter
-                id={this.props.serie.imdbID}
-                onMouseOver={event => this.hoverRate(event)}
-                onMouseOut={event => this.unHoverRate(event)}
-                >
-                    {
-                        this.props.serie.imdbRating === "N/A" ?
-                            "No IMDb rating available"
-                        :
-                        (
-                            "IMDb rating: ",
-                            <StarRatingComponent
-                                name="imdbrating" 
-                                id="imdbrating"
-                                starCount={10}
-                                value={parseInt(this.props.serie.imdbRating)}
-                                editing={false}
-                                // onMouseOver={this.hoverRate.bind(this)}
-                                // onMouseOut={this.unHoverRate.bind(this)}
-                                // onStarClick={this.renderTooltip.bind(this)}
-                            />
-                        )
-                    }
                     
                     {
-                        this.state.showTooltip ? 
-                            this.renderTooltip()
-                        : null
-                    }
-
-                </CardFooter>
+                            this.props.serie.imdbRating === "N/A" ?
+                                "No IMDb rating available *"
+                            :
+                            (
+                                <Ratings serie={this.props.serie} />
+                            )
+                        }
+                        
+                        {
+                            this.state.showTooltip ? 
+                                this.renderTooltip()
+                            : null
+                        }
+                    <br />
+                    <Button><a href={"https://www.imdb.com/title/" + this.props.serie.imdbID} target="blank">See on IMDb &rarr;</a></Button>
+                </Skeleton>
             </Card>
         );
     }
+}
+
+function Ratings({serie}) {
+
+    return (
+        <React.Fragment>            
+            <Tooltip title={serie.imdbVotes + " votes registered"}>
+                <span>IMDb rating:</span>
+            </Tooltip>
+            <br />
+            <StarRatingComponent
+                name="imdbrating" 
+                id="imdbrating"
+                starCount={10}
+                value={parseInt(serie.imdbRating)}
+                editing={false}
+            />
+        </React.Fragment>
+    );
 }
 
 export default Serie;

@@ -2,8 +2,11 @@
     bottom: -3px;
 }
 
-.card {
+.ant-card {
     vertical-align: top;
+    width: 300px;
+    display: inline-block;
+    margin: 10px;
 }
 
 .tooltip {
