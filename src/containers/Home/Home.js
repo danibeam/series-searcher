@@ -3,16 +3,15 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
 
-// Components library
+// UI Components library
 import { 
-    FormInput, 
-    Fade,   
+    Button,
     Form,
-    InputGroup,
-    InputGroupText,
-    InputGroupAddon, 
-    Button
-} from "shards-react";
+    Input,
+    Dropdown,
+    Skeleton
+} from 'antd';
+
 import Serie from '../Serie/Serie';
 
 // Styles
@@ -27,7 +26,8 @@ class Home extends Component {
             message: '',
             popularSeries: [],
             showPopularSerie: false,
-            inputValue: ''
+            inputValue: '',
+            loading: true
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -72,7 +72,8 @@ class Home extends Component {
                 this.setState({
                     ...this.state,
                     showPopularSerie: true,
-                    popularSeries: response
+                    popularSeries: response,
+                    loading: false
                 })
             }
         )
@@ -117,38 +118,36 @@ class Home extends Component {
 
         return (
             <React.Fragment>
-                <Header></Header>
 
                 <h1>All the series, one place</h1>
                 <Form>
-                    <FormInput className="searcher" type="text" size="lg" placeholder="Do not search for 'Game of Thrones' >:(" onChange={event => this.handleChange(event)} />
-                    <Button type="submit" size="lg" onClick={this.handleSubmit}>Filter</Button>
+                    <Input className="searcher" type="text" placeholder="Do not search for 'Game of Thrones' >:(" onChange={event => this.handleChange(event)} />
+                    <Button htmlType="submit" onClick={this.handleSubmit}>Filter</Button>
+                    {/* <Dropdown addonType="append"></Dropdown> */}
                 </Form>
-                <Fade in={this.state.showSerie}>
-                    {
-                        this.state.showSerie ?
-                        (
-                            <React.Fragment>
-                                <p className="result"><strong>{this.state.message}</strong></p>
-                                <Serie serie={this.state.serie}></Serie>
-                            </React.Fragment>
-                        )                             
-                        : <p className="result"><strong>{this.state.message}</strong></p>
-                    }
-                </Fade>                
-                <Fade in={this.state.showPopularSerie}>
-                    <h2>Popular series</h2>
-                    {
-                        this.state.popularSeries.map((serie,index) => (
-                            <Serie 
-                                key={index}
-                                serie={serie}
-                            ></Serie>
-                        ))
-                    }
-                </Fade>              
-                
-                <Footer></Footer>
+                {
+                    this.state.showSerie ?
+                    (
+                        <React.Fragment>
+                            <p className="result"><strong>{this.state.message}</strong></p>
+                            <Serie serie={this.state.serie}></Serie>
+                        </React.Fragment>
+                    )                             
+                    : <p className="result"><strong>{this.state.message}</strong></p>
+                }
+                <React.Fragment>
+                    <h2>Featured series</h2>
+                    <Skeleton loading={this.state.loading} active>
+                        {
+                            this.state.popularSeries.map((serie,index) => (
+                                <Serie 
+                                    key={index}
+                                    serie={serie}
+                                ></Serie>
+                            ))
+                        }        
+                    </Skeleton>   
+                </React.Fragment>
             </React.Fragment>
         );
     }
