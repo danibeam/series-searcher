@@ -4,7 +4,7 @@ import "./404.css";
 
 const NotFound = () => {
     return (
-        <div className="notFound">
+        <div>
             <h1>Resource not found</h1>
             <p>You may try something different...</p>
         </div>
