@@ -1,3 +1,15 @@
+# About this project
+
+This project was created just for fun! :D
+Just for learning and putting my React skills to work
+
+## API consumed
+
+This project consumes OMDb (The Open Movie Database) API resources. We're just fetching series in this one.
+Learn more [here](http://www.omdbapi.com/)
+
+## Create-React-APP typical description ...
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
