@@ -20,6 +20,7 @@ import Footer from './components/Footer/Footer';
  */
 import Home from './containers/Home/Home';
 import NotFound from './containers/404/404';
+import Detail from './containers/Serie/Detail/Detail';
 
 function App() {
     return (
@@ -28,7 +29,7 @@ function App() {
             {/* Routing */}
             <Router>
                 <Switch>
-                    <Route path="/serie/:name"></Route>
+                    <Route path="/serie/:name" component={Home}></Route>
                     <Route path="/serie/:name/:season"></Route>
                     <Route exact path="/" component={Home}></Route>
                     <Route component={NotFound}></Route>
