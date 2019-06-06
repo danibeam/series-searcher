@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import StarRatingComponent  from 'react-star-rating-component';
+import Detail from './Detail/Detail';
+import StarRatingComponent from 'react-star-rating-component';
+import { Link } from 'react-router-dom';
 import { 
     Card,  
     // CardHeader,
@@ -9,10 +11,14 @@ import {
     CardFooter,
     Button,
     Skeleton,
-    Tooltip
+    Tooltip,
+    Icon
 } from 'antd';
 
 import './Serie.css';
+// Icons (IMDb)
+import imdbLogo from '../../Icons/imdb.svg';
+
 
 class Serie extends Component {
     constructor(props) {
@@ -21,7 +27,8 @@ class Serie extends Component {
         this.state = {
             showTooltip: false,
             tooltip: '',
-            loading: false
+            loading: false,
+            showDetails: false
         };
 
         this.hoverRate.bind(this);
@@ -42,6 +49,17 @@ class Serie extends Component {
         this.setState({showTooltip: false})
     }
 
+    handleDetails = (event) => {
+        event.preventDefault();
+        console.log('Details')
+        this.setState({showDetails: true})
+    }
+
+    handleCloseDetail = (event) => {
+        event.preventDefault();
+        this.setState({showDetails: false})
+    }
+
     renderTooltip = () => {
         if(this.state.showTooltip) {
             return (
@@ -59,12 +77,22 @@ class Serie extends Component {
 
     render() {
         return (
-            <Card title={this.props.serie.Title} extra={<a href="#">More</a>}>
-                <Skeleton loading={this.state.loading} active>
-                    <p>{this.props.serie.Genre}</p>
-                    <p>{this.props.serie.Country}, {this.props.serie.Year}</p>
-                    
-                    {
+            <React.Fragment>
+                <Detail 
+                show={this.state.showDetails} 
+                closeDetail={this.handleCloseDetail} 
+                serie={this.props.serie}
+                />,
+                <Card 
+                title={this.props.serie.Title} 
+                actions={
+                    [<Logo serie={this.props.serie} />, <Icon style={{'marginTop': '10px'}} type="plus" title="See more details" onClick={this.handleDetails} />]
+                }>
+                    <Skeleton loading={this.state.loading} active>
+                        <p>{this.props.serie.Genre}</p>
+                        <p>{this.props.serie.Country}, {this.props.serie.Year}</p>
+                        
+                        {
                             this.props.serie.imdbRating === "N/A" ?
                                 "No IMDb rating available *"
                             :
@@ -78,10 +106,9 @@ class Serie extends Component {
                                 this.renderTooltip()
                             : null
                         }
-                    <br />
-                    <Button><a href={"https://www.imdb.com/title/" + this.props.serie.imdbID} target="blank">See on IMDb &rarr;</a></Button>
-                </Skeleton>
-            </Card>
+                    </Skeleton>
+                </Card>
+            </React.Fragment>
         );
     }
 }
@@ -90,19 +117,33 @@ function Ratings({serie}) {
 
     return (
         <React.Fragment>            
-            <Tooltip title={serie.imdbVotes + " votes registered"}>
-                <span>IMDb rating:</span>
+            <Tooltip title={"Ranked with " + serie.imdbRating + " by " + serie.imdbVotes + " users on IMDb"}
+            overlayClassName="tooltip">
+                <div>
+                    {/* <span>IMDb rating:</span> */}
+                    <br />
+                    <StarRatingComponent
+                        name="imdbrating" 
+                        id="imdbrating"
+                        starCount={10}
+                        value={parseInt(serie.imdbRating)}
+                        editing={false}
+                    />
+                </div>
             </Tooltip>
-            <br />
-            <StarRatingComponent
-                name="imdbrating" 
-                id="imdbrating"
-                starCount={10}
-                value={parseInt(serie.imdbRating)}
-                editing={false}
-            />
+
         </React.Fragment>
     );
 }
 
-export default Serie;
+function Logo ({serie}) {
+    return (
+        <React.Fragment>
+            <a href={"https://www.imdb.com/title/" + serie.imdbID} target="blank">
+                <img src={imdbLogo} alt="IMDb link" title="See on IMDb" width="40px" height="40px" />   
+            </a>
+        </React.Fragment>
+    )
+}
+
+export default Serie;   

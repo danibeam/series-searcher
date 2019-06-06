@@ -10,6 +10,11 @@
 }
 
 .tooltip {
+    text-align: center; 
+    width: 200px;
+}
+
+/* .tooltip {
     z-index: 999;
     max-width: 200px;
     padding: 7px 13px;
@@ -19,4 +24,4 @@
     border-radius: .375rem;
     position: absolute;
     will-change: transform;
-}
+} */
