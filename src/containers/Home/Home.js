@@ -56,7 +56,7 @@ class Home extends Component {
         const promises = hotOnes.map(async featured =>  {
             const response = await axios({
                 method: 'GET',
-                url: 'http://www.omdbapi.com/?apikey=5ccb1a9d&type=series&t=' + featured
+                url: 'http://www.omdbapi.com/?apikey=5ccb1a9d&type=series&plot=full&t=' + featured
             })
 
             return response.data
