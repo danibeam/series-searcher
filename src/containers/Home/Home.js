@@ -9,7 +9,8 @@ import {
     Form,
     Input,
     Dropdown,
-    Skeleton
+    Skeleton,
+    Spin
 } from 'antd';
 
 import Serie from '../Serie/Serie';
@@ -137,16 +138,28 @@ class Home extends Component {
                 }
                 <React.Fragment>
                     <h2>Featured TV series</h2>
-                    <Skeleton loading={this.state.loading} active>
-                        {
-                            this.state.popularSeries.map((serie,index) => (
-                                <Serie 
-                                    key={index}
-                                    serie={serie}
-                                ></Serie>
-                            ))
-                        }        
-                    </Skeleton>   
+                    {
+                        this.state.loading ?
+                            <Spin />
+                        :
+                        this.state.popularSeries.map((serie,index) => (
+                            <Serie 
+                                key={index}
+                                serie={serie}
+                            ></Serie>
+                        ))
+                    }
+                        
+                        {/* <Skeleton loading={this.state.loading} active>
+                            {
+                                this.state.popularSeries.map((serie,index) => (
+                                    <Serie 
+                                        key={index}
+                                        serie={serie}
+                                    ></Serie>
+                                ))
+                            }        
+                        </Skeleton>    */}
                 </React.Fragment>
             </React.Fragment>
         );

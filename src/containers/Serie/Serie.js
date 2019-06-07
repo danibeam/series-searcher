@@ -82,7 +82,7 @@ class Serie extends Component {
                 show={this.state.showDetails} 
                 closeDetail={this.handleCloseDetail} 
                 serie={this.props.serie}
-                />,
+                />
                 <Card 
                 title={this.props.serie.Title} 
                 actions={
