@@ -57,23 +57,6 @@ function Detail(props) {
         )
     }
 
-    // TODO fetching just season 1
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const result = await axios.get(
-    //             'http://www.omdbapi.com/?apikey=5ccb1a9d&t='+props.serie.Title+'&type=series&plot=full&season=1'
-    //         ).then(
-    //             response => {
-    //                 const objResult = { data: response.data };
-    //                 setSeasons(objResult);
-    //                 console.log(objResult)
-    //             }
-    //         );
-    //     };
-    //     fetchData();
-    // }, [])
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const objResult = [];
@@ -83,12 +66,16 @@ function Detail(props) {
                     'http://www.omdbapi.com/?apikey=5ccb1a9d&t='+props.serie.Title+'&type=series&plot=full&season='+season
                 ).then(
                     response => {
-                        objResult.push({ data: response.data });
-                        // Array is set up with all the seasons
-                        if(objResult.length == response.data.totalSeasons) {
-                            setSeasons(objResult);
-                            console.log(objResult);
+                        if(response.data) {
+                            objResult.push({ data: response.data });
+                            // Array is set up with all the seasons
+                            if(objResult.length == response.data.totalSeasons) {
+                                const sortedResult = [...objResult].sort((a,b) => (a.Season > b.Season) ? -1 : 1);
+                                setSeasons(sortedResult);
+                                console.log(sortedResult);
+                            }
                         }
+                        
                     }
                 );
             };
