@@ -16,25 +16,6 @@ function Detail(props) {
     const { TabPane } = Tabs;
     const { Paragraph } = Typography;
 
-    function fetchSeasons () {
-        let tempSeasons = [];
-        for(let counter = 1; counter <= props.serie.totalSeasons; counter++) {
-            try {
-                axios.get('http://www.omdbapi.com/?apikey=5ccb1a9d&t='+props.serie.Title+'&type=series&plot=full&season='+counter).then(
-                    response => {
-                        console.log('Temporada ', counter, response.data)
-                        // return response.data
-                        tempSeasons.push(response.data);
-                    }
-                )
-            } catch(error) {
-                console.log(error);
-            }
-        }
-        setSeasons(tempSeasons)
-        // return tempSeasons;
-    }
-
     function Seasons () {
         return (
             <Tabs defaultActiveKey="0">
