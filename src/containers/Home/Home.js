@@ -122,7 +122,7 @@ class Home extends Component {
 
                 <h1>All the series, one place</h1>
                 <Form>
-                    <Input className="searcher" type="text" placeholder="Do not search for 'Game of Thrones' >:(" onChange={event => this.handleChange(event)} />
+                    <Input className="searcher" type="text" placeholder="Do not search for 'Game of Thrones' (T_T)" onChange={event => this.handleChange(event)} />
                     <Button htmlType="submit" onClick={this.handleSubmit}>Filter</Button>
                     {/* <Dropdown addonType="append"></Dropdown> */}
                 </Form>

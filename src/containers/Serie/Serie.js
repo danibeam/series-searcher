@@ -12,13 +12,15 @@ import {
     Button,
     Skeleton,
     Tooltip,
-    Icon
+    Icon,
+    Typography
 } from 'antd';
 
 import './Serie.css';
 // Icons (IMDb)
 import imdbLogo from '../../Icons/imdb.svg';
 
+const { Paragraph } = Typography;
 
 class Serie extends Component {
     constructor(props) {
@@ -76,6 +78,9 @@ class Serie extends Component {
     }
 
     render() {
+        // ! Major change... To improve performance
+        // TODO not render every detail of every TV Serie
+        // TODO -> just render when open details of determined serie
         return (
             <React.Fragment>
                 <Detail 
@@ -84,7 +89,11 @@ class Serie extends Component {
                 serie={this.props.serie}
                 />
                 <Card 
-                title={this.props.serie.Title} 
+                title={
+                    <Paragraph ellipsis={{rows: 1, expandable: true}}>
+                        {this.props.serie.Title}
+                    </Paragraph>
+                } 
                 actions={
                     [<Logo serie={this.props.serie} />, <Icon style={{'marginTop': '10px'}} type="plus" title="See more details" onClick={this.handleDetails} />]
                 }>
@@ -114,7 +123,6 @@ class Serie extends Component {
 }
 
 function Ratings({serie}) {
-
     return (
         <React.Fragment>            
             <Tooltip title={"Ranked with " + serie.imdbRating + " by " + serie.imdbVotes + " users on IMDb"}
@@ -146,4 +154,4 @@ function Logo ({serie}) {
     )
 }
 
-export default Serie;   
+export default Serie; 
