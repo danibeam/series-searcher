@@ -5,7 +5,8 @@ import {
     Skeleton,
     Tabs,
     Typography,
-    List
+    List,
+    Spin
 } from 'antd';
 
 import './Detail.css';
@@ -13,35 +14,43 @@ import './Detail.css';
 function Detail(props) {
     const [loading, setLoading] = useState(true);
     const [sns, setSeasons] = useState({data: []});
+    const [fetched, setFetched] = useState(false);
     const { TabPane } = Tabs;
     const { Paragraph } = Typography;
 
     function Seasons () {
         return (
-            <Tabs defaultActiveKey="0">
-                {
-                    sns.map((season,index) => (
-                        <TabPane tab={'Season ' + season.data.Season} key={index}>
-                            <List
-                                size="small"
-                                bordered
-                                dataSource={season.data.Episodes}
-                                renderItem={
-                                    episode => (
-                                        <List.Item>{episode.Episode}. {episode.Title}</List.Item>
-                                    )}                            
-                            />
-                        </TabPane>
-                    ))
-                }
-            </Tabs>
+            <Fragment>
+            {
+                loading === false ? 
+                    <Tabs defaultActiveKey="0">
+                    {
+                        sns.map((season,index) => (
+                            <TabPane tab={'Season ' + season.data.Season} key={index}>
+                                <List
+                                    size="small"
+                                    bordered
+                                    dataSource={season.data.Episodes}
+                                    renderItem={
+                                        episode => (
+                                            <List.Item>{episode.Episode}. {episode.Title}</List.Item>
+                                        )}                            
+                                />
+                            </TabPane>
+                        ))
+                    }
+                    </Tabs>
+                : 'cannot display yet'
+            }
+            </Fragment>
         )
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {
+    function fetchSeasons() {      
+        console.log('fetching seasons...')  
         const objResult = [];
         for(let season=1; season<=props.serie.totalSeasons; season++) {
+            // eslint-disable-next-line no-loop-func
             const fetchData = async () => {
                 const result = await axios.get(
                     'http://www.omdbapi.com/?apikey=5ccb1a9d&t='+props.serie.Title+'&type=series&plot=full&season='+season
@@ -50,10 +59,10 @@ function Detail(props) {
                         if(response.data) {
                             objResult.push({ data: response.data });
                             // Array is set up with all the seasons
-                            if(objResult.length == response.data.totalSeasons) {
+                            if(objResult.length.toString() === response.data.totalSeasons) {
                                 const sortedResult = [...objResult].sort((a,b) => (a.Season > b.Season) ? -1 : 1);
                                 setSeasons(sortedResult);
-                                console.log(sortedResult);
+                                return sortedResult;
                             }
                         }
                         
@@ -62,9 +71,20 @@ function Detail(props) {
             };
             fetchData();
         }
-        setLoading(false);        
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {        
+        // ? Like componentDidMount -> Executing while component 'Detail' loaded
+        // Getting all seasons, one by one...
+        fetchSeasons();
     }, [])
 
+    useEffect( () => {
+        // ? Executed after data(seasons) is fetched
+        setLoading(false);
+        setFetched(true);
+    }, [sns])
     
     return (
         <Drawer
@@ -82,7 +102,15 @@ function Detail(props) {
                 <Paragraph ellipsis={{rows: 5, expandable: true}}>{props.serie.Plot}</Paragraph>
                 <h3>Seasons</h3>
                 {
-                    <Seasons />
+                    fetched ? 
+                        <Seasons />
+                    :
+                        // Loading seasons
+                        (
+                            <Skeleton loading={true} />,
+                            // Call fetching method once again...
+                            fetchSeasons()
+                        )
                 }
                 
             </Skeleton>

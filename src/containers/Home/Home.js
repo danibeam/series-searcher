@@ -3,6 +3,9 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
 
+// HOC wrapper component
+import wrapperComponent from '../../hoc/wrapper';
+
 // UI Components library
 import { 
     Button,
@@ -118,10 +121,9 @@ class Home extends Component {
     render() {
 
         return (
-            <React.Fragment>
+            <React.Fragment >
 
-                <h1>All the series, one place</h1>
-                <Form>
+                <Form style={{width: '90%', margin: 'auto'}}>
                     <Input className="searcher" type="text" placeholder="Do not search for 'Game of Thrones' (T_T)" onChange={event => this.handleChange(event)} />
                     <Button htmlType="submit" onClick={this.handleSubmit}>Filter</Button>
                     {/* <Dropdown addonType="append"></Dropdown> */}
@@ -166,4 +168,6 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const WrappedComponent = wrapperComponent(Home);
+
+export default WrappedComponent;

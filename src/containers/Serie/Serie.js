@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Detail from './Detail/Detail';
 import StarRatingComponent from 'react-star-rating-component';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { 
     Card,  
     // CardHeader,

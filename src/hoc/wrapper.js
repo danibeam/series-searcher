@@ -3,7 +3,7 @@ import React from 'react';
 const wrapperComponent = (WrappedComponent) => {
   class HOC extends React.Component {
     render() {
-      return <WrappedComponent style={styles.child} />;
+      return <WrappedComponent headerStyle={styles.headerAdjust} contentStyle={styles.contentAdjust} />;
     }
   }
     
@@ -11,8 +11,12 @@ const wrapperComponent = (WrappedComponent) => {
 };
 
 const styles = {
-    child: {
-        padding: '0 5% 0 5%'
+    headerAdjust: {
+        padding: '0 10%'
+    },
+
+    contentAdjust: {
+        width: '50%'
     }
 }
 
