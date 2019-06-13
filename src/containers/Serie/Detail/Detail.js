@@ -25,12 +25,12 @@ function Detail(props) {
                 loading === false ? 
                     <Tabs defaultActiveKey="0">
                     {
-                        sns.map((season,index) => (
-                            <TabPane tab={'Season ' + season.data.Season} key={index}>
+                        sns.reverse().map((season,index) => (
+                            <TabPane tab={'Season ' + season.Season} key={index}>
                                 <List
                                     size="small"
                                     bordered
-                                    dataSource={season.data.Episodes}
+                                    dataSource={season.Episodes}
                                     renderItem={
                                         episode => (
                                             <List.Item>{episode.Episode}. {episode.Title}</List.Item>
@@ -47,7 +47,6 @@ function Detail(props) {
     }
 
     function fetchSeasons() {      
-        console.log('fetching seasons...')  
         const objResult = [];
         for(let season=1; season<=props.serie.totalSeasons; season++) {
             // eslint-disable-next-line no-loop-func
@@ -57,7 +56,7 @@ function Detail(props) {
                 ).then(
                     response => {
                         if(response.data) {
-                            objResult.push({ data: response.data });
+                            objResult.push(response.data);
                             // Array is set up with all the seasons
                             if(objResult.length.toString() === response.data.totalSeasons) {
                                 const sortedResult = [...objResult].sort((a,b) => (a.Season > b.Season) ? -1 : 1);
@@ -80,10 +79,18 @@ function Detail(props) {
         fetchSeasons();
     }, [])
 
+    useEffect(() => {
+        console.log('Another serie')
+        // TODO check if new serie typed -> fetch its seasons
+    }, [props])
+
     useEffect( () => {
-        // ? Executed after data(seasons) is fetched
-        setLoading(false);
-        setFetched(true);
+        // ? Executed after data(seasons) is fetched & all seasons are stored
+        if(sns.length == props.serie.totalSeasons) {
+            let sortedResult = [...sns].sort(dynamicSort("Season"));
+            setLoading(false);
+            setFetched(true);
+        }
     }, [sns])
     
     return (
@@ -116,6 +123,23 @@ function Detail(props) {
             </Skeleton>
         </Drawer>
     );
+}
+
+function dynamicSort(property) {
+    var sortOrder = 1;
+
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+
+    return function (a,b) {
+        if(sortOrder == -1){
+            return b[property].localeCompare(a[property]);
+        }else{
+            return a[property].localeCompare(b[property]);
+        }        
+    }
 }
 
 export default Detail;
