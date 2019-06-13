@@ -1,14 +1,29 @@
 # About this project
 
 This project was created just for fun! :D
-Just for learning and putting my React skills to work
+Just for learning and putting my React skills to work.
+
+## UI components
+
+Followed design rules and used [Ant Design UI components for React](https://ant.design/docs/react/introduce)
+
+## Issues and future enhancements
+
+You can follow the current [threats](https://github.com/danibeam/series-searcher/issues) and join the conversation about issues in current version and new features for next instalments.
 
 ## API consumed
 
 This project consumes OMDb (The Open Movie Database) API resources. We're just fetching series in this one.
 Learn more [here](http://www.omdbapi.com/)
 
-## Create-React-APP typical description ...
+> **Note:** You may noticed that some episodes and seasons are missing. Keep in mind that the API consumed is an OpenSource project. 
+
+### Donate API dev team
+
+You can become a Patron and support the development of OMDb API.
+Learn more [here](https://www.patreon.com/join/omdb)
+
+## Create-React-APP default description...
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
