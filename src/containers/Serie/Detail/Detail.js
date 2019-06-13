@@ -5,8 +5,7 @@ import {
     Skeleton,
     Tabs,
     Typography,
-    List,
-    Spin
+    List
 } from 'antd';
 
 import './Detail.css';
@@ -34,7 +33,7 @@ function Detail(props) {
                                     renderItem={
                                         episode => (
                                             <List.Item>{episode.Episode}. {episode.Title}</List.Item>
-                                        )}                            
+                                        )}
                                 />
                             </TabPane>
                         ))
@@ -51,6 +50,7 @@ function Detail(props) {
         for(let season=1; season<=props.serie.totalSeasons; season++) {
             // eslint-disable-next-line no-loop-func
             const fetchData = async () => {
+                // eslint-disable-next-line no-unused-vars
                 const result = await axios.get(
                     'http://www.omdbapi.com/?apikey=5ccb1a9d&t='+props.serie.Title+'&type=series&plot=full&season='+season
                 ).then(
@@ -59,7 +59,7 @@ function Detail(props) {
                             objResult.push(response.data);
                             // Array is set up with all the seasons
                             if(objResult.length.toString() === response.data.totalSeasons) {
-                                const sortedResult = [...objResult].sort((a,b) => (a.Season > b.Season) ? -1 : 1);
+                                const sortedResult = [...objResult].sort((a,b) => (parseInt(a.Season, 10) > parseInt(b.Season, 10)) ? -1 : 1);
                                 setSeasons(sortedResult);
                                 return sortedResult;
                             }
@@ -77,21 +77,22 @@ function Detail(props) {
         // ? Like componentDidMount -> Executing while component 'Detail' loaded
         // Getting all seasons, one by one...
         fetchSeasons();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
-        console.log('Another serie')
+        // console.log('Another serie')
         // TODO check if new serie typed -> fetch its seasons
     }, [props])
 
-    useEffect( () => {
+    useEffect(() => {
         // ? Executed after data(seasons) is fetched & all seasons are stored
         if(sns.length == props.serie.totalSeasons) {
-            let sortedResult = [...sns].sort(dynamicSort("Season"));
+            // let sortedResult = [...sns].sort(dynamicSort("Season"));
             setLoading(false);
             setFetched(true);
         }
-    }, [sns])
+    }, [props.serie.totalSeasons, sns])
     
     return (
         <Drawer
@@ -134,7 +135,7 @@ function dynamicSort(property) {
     }
 
     return function (a,b) {
-        if(sortOrder == -1){
+        if(sortOrder === -1){
             return b[property].localeCompare(a[property]);
         }else{
             return a[property].localeCompare(b[property]);
