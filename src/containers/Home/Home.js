@@ -51,7 +51,7 @@ class Home extends Component {
     getPopularSeries = () => {
         // &type=series => to filter movies, etc
         // ? Used Promises here to fetch everything within the map and collect results after mapping
-        let hotOnes = ['Breaking bad', 'The Wire', 'Lost', 'House of Cards', 'The Walking Dead', 'House', 'Stranger Things'];
+        let hotOnes = ['Breaking bad', 'The Wire', 'Married with children', 'Lost', 'House of Cards', 'The Walking Dead', 'House', 'Stranger Things'];
 
         const promises = hotOnes.map(async featured =>  {
             const response = await axios({
