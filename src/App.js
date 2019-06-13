@@ -20,7 +20,6 @@ import Footer from './components/Footer/Footer';
  */
 import Home from './containers/Home/Home';
 import NotFound from './containers/404/404';
-import Detail from './containers/Serie/Detail/Detail';
 
 function App() {
     return (

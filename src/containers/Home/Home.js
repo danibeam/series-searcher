@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
 
 // HOC wrapper component
@@ -11,8 +9,6 @@ import {
     Button,
     Form,
     Input,
-    Dropdown,
-    Skeleton,
     Spin
 } from 'antd';
 

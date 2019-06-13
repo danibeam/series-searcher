@@ -3,13 +3,7 @@ import Detail from './Detail/Detail';
 import StarRatingComponent from 'react-star-rating-component';
 // import { Link } from 'react-router-dom';
 import { 
-    Card,  
-    // CardHeader,
-    CardTitle,
-    // CardImg,
-    CardBody,
-    CardFooter,
-    Button,
+    Card,
     Skeleton,
     Tooltip,
     Icon,

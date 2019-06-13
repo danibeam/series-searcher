@@ -6,7 +6,6 @@ import logo from '../../Icons/logo.png';
 import wrapperComponent from '../../hoc/wrapper';
 
 import {
-    Layout,
     Row,
     Col
 } from 'antd';
