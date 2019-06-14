@@ -56,7 +56,7 @@ class Home extends Component {
         const promises = hotOnes.map(async featured =>  {
             const response = await axios({
                 method: 'GET',
-                url: 'http://www.omdbapi.com/?apikey=5ccb1a9d&type=series&plot=full&t=' + featured
+                url: 'https://www.omdbapi.com/?apikey=5ccb1a9d&type=series&plot=full&t=' + featured
             })
 
             return response.data
@@ -82,7 +82,7 @@ class Home extends Component {
 
     fetchSerie = (title) => {
         try {
-            axios.get('http://www.omdbapi.com/?apikey=5ccb1a9d&type=series&t=' + title).then(
+            axios.get('https://www.omdbapi.com/?apikey=5ccb1a9d&type=series&t=' + title).then(
                 response => {
                     console.log(title, response)
                     if(response.data.Response !== "False") {

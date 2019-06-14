@@ -52,7 +52,7 @@ function Detail(props) {
             const fetchData = async () => {
                 // eslint-disable-next-line no-unused-vars
                 const result = await axios.get(
-                    'http://www.omdbapi.com/?apikey=5ccb1a9d&t='+props.serie.Title+'&type=series&plot=full&season='+season
+                    'https://www.omdbapi.com/?apikey=5ccb1a9d&t='+props.serie.Title+'&type=series&plot=full&season='+season
                 ).then(
                     response => {
                         if(response.data) {
