@@ -7,7 +7,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "react-star-rating-component": "^1.4.1",
     "shards-react": "^1.0.3"
   },
@@ -33,7 +33,7 @@
     ]
   },
   "devDependencies": {
-    "@svgr/webpack": "^4.3.0"
+    "@svgr/webpack": "^8.1.0"
   },
   "engines": {
     "name": "deploy",
